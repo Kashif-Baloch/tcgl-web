@@ -59,9 +59,9 @@ export function OTPVerificationStep({ onBack, onSubmit }: Props) {
                     <p className="text-muted-foreground font-ubuntu">Enter the 6-digit OTP sent to your phone: {formData.mobileNumber}</p>
                 </div>
 
-                <Card className="bg-blue-50 border-blue-200">
+                <Card className="bg-[#d73470]/10 border-[#d73470]/50">
                     <CardContent className="px-4 !py-0">
-                        <div className="flex items-center gap-2 text-blue-700">
+                        <div className="flex items-center gap-2 text-primary">
                             <CheckCircle className="h-4 w-4" />
                             <p className="text-sm">
                                 For demo purposes, use OTP: <strong>123456</strong>
@@ -84,11 +84,11 @@ export function OTPVerificationStep({ onBack, onSubmit }: Props) {
             </div>
 
             <div className="flex items-center w-full relative gap-2">
-                <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#239696] to-[#33CCCC] text-white  rounded-md  hover:from-[#1F8585] hover:to-[#2BBBBB] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
+                <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] text-white  rounded-md   !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
                     <ChevronLeft strokeWidth={3} className="size-5" />
                     Back
                 </Button>
-                <Button type="submit" disabled={watch("otp").length < 6} className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#239696] to-[#33CCCC] text-white  rounded-md  hover:from-[#1F8585] hover:to-[#2BBBBB] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <Button type="submit" disabled={watch("otp").length < 6} className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] text-white  rounded-md   !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
                     Verify & Submit
                 </Button>
             </div>

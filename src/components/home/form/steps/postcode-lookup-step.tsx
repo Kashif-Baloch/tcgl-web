@@ -76,7 +76,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
             <div className="space-y-4">
                 <div className="space-y-2">
                     <Label htmlFor="postcode"
-                        className="block text-[18px] sm:text-[20px] font-bold text-[#373643] mb-2 text-left"
+                        className="block text-[18px] sm:text-[20px] font-bold text-primary mb-2 text-left"
                         style={{
                             fontFamily: "Inter, sans-serif",
                             fontWeight: 700,
@@ -90,7 +90,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
                         <Input id="postcode" placeholder="e.g. SW1A 1AA" {...register("postcode")}
                             className="flex-1 !text-[17px] sm:!text-lg px-4 h-[50px]"
                         />
-                        <Button type="button" onClick={handleFindAddress} disabled={!postcode || isLoading} variant="outline" className="h-[50px] bg-[#1A1F71] text-white hover:text-white cursor-pointer rounded-md hover:bg-[#2A2F81] transition duration-200 !px-5 text-[18px] flex items-center justify-center gap-1">
+                        <Button type="button" onClick={handleFindAddress} disabled={!postcode || isLoading} variant="outline" className="h-[50px] bg-primary text-white hover:text-white cursor-pointer rounded-md hover:bg-[#d73470] transition duration-200 !px-5 text-[18px] flex items-center justify-center gap-1">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width={16}
@@ -113,7 +113,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
                 {addresses.length > 0 && (
                     <div className="space-y-2">
                         <Label htmlFor="address"
-                            className="block text-[18px] sm:text-[20px] font-bold text-[#373643] mb-2 text-left"
+                            className="block text-[18px] sm:text-[20px] font-bold text-primary mb-2 text-left"
                             style={{
                                 fontFamily: "Inter, sans-serif",
                                 fontWeight: 700,
@@ -139,7 +139,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
             </div>
 
             <div className="flex justify-end w-full">
-                <Button type="submit" className="relative bg-gradient-to-r cursor-pointer h-[50px] from-[#239696] to-[#33CCCC] text-white p-2.5 sm:p-4 rounded-md w-full hover:from-[#1F8585] hover:to-[#2BBBBB] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled={!selectedAddress}>
+                <Button type="submit" className="relative bg-gradient-to-r cursor-pointer h-[50px]  text-white p-2.5 sm:p-4 rounded-md w-full from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled={!selectedAddress}>
                     Start My Claim <ChevronRight strokeWidth={3} className="size-5" />
                 </Button>
             </div>

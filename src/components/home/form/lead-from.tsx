@@ -130,20 +130,20 @@ export default function MultiStepForm() {
                                                     Step {currentStep} of {TOTAL_STEPS}: {getStepTitle()}
                                                 </p>
                                             </div>
-                                            <Progress value={(currentStep / TOTAL_STEPS) * 100} className="w-full" />
+                                            <Progress value={(currentStep / TOTAL_STEPS) * 100} className="w-full " />
                                         </div>
                                     </CardHeader>
                                 )}
                                 {currentStep === 1 && (
                                     <CardHeader className="!p-0">
                                         <div>
-                                            <h1 className='font-ubuntu font-bold text-3xl md:text-4xl'>
+                                            <h1 className='font-ubuntu text-primary font-bold text-3xl md:text-4xl'>
                                                 Your Car Finance
                                             </h1>
                                             <p className='text-base md:text-xl mt-2'>
                                                 Car finance was mis-sold{" "}
                                                 <span
-                                                    className='underline decoration-primary decoration-[4px] decor'
+                                                    className='underline decoration-[#d73470] decoration-[4px] decor'
                                                 >
                                                     between 2007 and 2020.
                                                 </span>{" "}
@@ -151,10 +151,10 @@ export default function MultiStepForm() {
                                             <p className='text-base md:text-xl mt-2'>
                                                 Select ALL lenders below you want to check for potential claims.
                                             </p>
-                                            <h2 className='font-ubuntu mt-3 font-bold text-2xl md:text-3xl'>
+                                            <h2 className='font-ubuntu mt-3 text-primary font-bold text-2xl md:text-3xl'>
                                                 Can&apos;t remember...
                                             </h2>
-                                            <h3 className='font-ubuntu mt-2 font-bold text-[19px] md:text-[22px]'>
+                                            <h3 className='font-ubuntu mt-2 text-primary font-bold text-[19px] md:text-[22px]'>
                                                 All your lenders?
                                             </h3>
                                             <p className='text-base md:text-xl mt-2'>

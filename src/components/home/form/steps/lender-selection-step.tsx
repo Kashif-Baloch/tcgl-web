@@ -125,11 +125,11 @@ export function LenderSelectionStep({ onNext, onBack }: Props) {
                 </div>
             </div>
             <div className="flex items-center w-full relative gap-2">
-                <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#239696] to-[#33CCCC] text-white  rounded-md  hover:from-[#1F8585] hover:to-[#2BBBBB] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
+                <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
                     <ChevronLeft strokeWidth={3} className="size-5" />
                     Back
                 </Button>
-                <Button type="submit" disabled={selectedLenders.length === 0} className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#239696] to-[#33CCCC] text-white  rounded-md  hover:from-[#1F8585] hover:to-[#2BBBBB] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <Button type="submit" disabled={selectedLenders.length === 0} className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed">
                     Next
                     <ChevronRight strokeWidth={3} className="size-5" />
                 </Button>

@@ -9,7 +9,7 @@ const HowItworks = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="bg-white text-blue-900 p-6 rounded-lg relative">
-                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold">
+                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-[#d73470] text-white rounded-full flex items-center justify-center font-bold">
                             1
                         </div>
                         <h3 className="font-bold mb-2">Find your agreement</h3>
@@ -20,7 +20,7 @@ const HowItworks = () => {
                     </div>
 
                     <div className="bg-white text-blue-900 p-6 rounded-lg relative">
-                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold">
+                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-[#d73470] text-white rounded-full flex items-center justify-center font-bold">
                             2
                         </div>
                         <h3 className="font-bold mb-2">We handle your claim</h3>
@@ -30,7 +30,7 @@ const HowItworks = () => {
                     </div>
 
                     <div className="bg-white text-blue-900 p-6 rounded-lg relative">
-                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center font-bold">
+                        <div className="absolute -top-4 -left-4 w-8 h-8 bg-[#d73470] text-white rounded-full flex items-center justify-center font-bold">
                             3
                         </div>
                         <h3 className="font-bold mb-2">Get compensation</h3>
@@ -41,7 +41,7 @@ const HowItworks = () => {
                 </div>
 
                 <div className="mt-8 text-center">
-                    <Button className="bg-green-500 hover:bg-teal-600 cursor-pointer text-white">
+                    <Button className="bg-[#d73470]/80 hover:bg-[#d73470]/100 cursor-pointer text-white">
                         Start My Agreement Check
                     </Button>
                 </div>

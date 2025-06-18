@@ -83,7 +83,7 @@ const Testimonials = () => {
                                 <ReviewsSlide reviews={reviews} />
 
                                 <div className="mt-8 text-center">
-                                    <Button className="bg-teal-500 hover:bg-teal-600 text-white">
+                                    <Button className="bg-[#d73470]/80 hover:bg-[#d73470]/100 cursor-pointer text-white">
                                         Start My Agreement Check
                                     </Button>
                                 </div>
