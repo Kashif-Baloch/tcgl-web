@@ -20,12 +20,19 @@ const Header = () => {
           height={100}
         /> */}
         <Image
+          src={"/ssl-img.svg"}
+          alt="mmb-logo-reverse.svg"
+          width={200}
+          height={100}
+          className="w-full max-w-[68px] md:max-w-[115px]"
+        />
+        {/* <Image
           src={"/mmb-logo-reverse.svg"}
           alt="mmb-logo-reverse.svg"
           width={200}
           height={100}
           className="w-full max-w-[68px] md:max-w-[95px]"
-        />
+        /> */}
       </div>
     </header>
   );
