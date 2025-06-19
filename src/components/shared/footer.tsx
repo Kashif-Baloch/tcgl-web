@@ -13,8 +13,8 @@ const Footer = () => {
       </p>
       <p className="mt-2 w-10/12 mx-auto max-w-[1200px] leading-[1.6]">
         *Value is an estimate and is not indicative of a guaranteed compensation
-        amount. The FCA confirmed in their publication "Our work on motor
-        finance - Final Finding" that on a 4 year car finance agreement of
+        amount. The FCA confirmed in their publication &quot;Our work on motor
+        finance - Final Finding&quot; that on a 4 year car finance agreement of
         £10,000, a Discretionary Commission Arrangement typically resulted in
         consumers being overcharged £1,100
         <a
