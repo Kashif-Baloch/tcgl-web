@@ -9,6 +9,7 @@ import { LenderSelectionStep } from "./steps/lender-selection-step";
 import { SignatureStep } from "./steps/signature-step";
 import { DrivingLicenceStep } from "./steps/driving-licence-step";
 import { OTPVerificationStep } from "./steps/otp-verification-step";
+import { ChevronLeft } from "lucide-react";
 
 // Form data types
 export interface FormData {
@@ -122,7 +123,13 @@ export default function MultiStepForm() {
               <Card className="!p-0 border-none shadow-none">
                 {currentStep > 1 && (
                   <CardHeader className="!p-0">
-                    <div className="space-y-4">
+                    <div className="space-y-4 relative">
+                      <button
+                        className="sm:absolute  top-2 left-0 cursor-pointer flex items-center gap-2"
+                        onClick={prevStep}
+                      >
+                        <ChevronLeft strokeWidth={3} className="size-5" /> Back
+                      </button>
                       <div className="text-center">
                         <CardTitle className="font-ubuntu font-bold text-3xl">
                           Application Form

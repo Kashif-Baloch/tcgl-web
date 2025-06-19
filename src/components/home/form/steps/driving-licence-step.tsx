@@ -9,7 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useFormContext } from "../lead-from";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  //ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Image from "next/image";
 
 const schema = z.object({
@@ -28,7 +31,7 @@ interface Props {
   onBack: () => void;
 }
 
-export function DrivingLicenceStep({ onNext, onBack }: Props) {
+export function DrivingLicenceStep({ onNext }: Props) {
   const { formData, updateFormData } = useFormContext();
   const [frontPreview, setFrontPreview] = useState<string | null>(null);
   const [backPreview, setBackPreview] = useState<string | null>(null);
@@ -204,14 +207,14 @@ export function DrivingLicenceStep({ onNext, onBack }: Props) {
       </div>
 
       <div className="flex items-center w-full relative gap-2">
-        <Button
+        {/* <Button
           type="button"
           className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
           onClick={onBack}
         >
           <ChevronLeft strokeWidth={3} className="size-5" />
           Back
-        </Button>
+        </Button> */}
         <Button
           type="submit"
           disabled={!frontFile || !backFile}
