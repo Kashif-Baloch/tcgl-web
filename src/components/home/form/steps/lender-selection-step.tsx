@@ -47,7 +47,7 @@ export function LenderSelectionStep({ onNext }: Props) {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      selectedLenders: formData.selectedLenders || [],
+      selectedLenders: formData.selectedLenders || LENDERS,
     },
   });
 
@@ -65,8 +65,15 @@ export function LenderSelectionStep({ onNext }: Props) {
           <h3 className="text-xl font-ubuntu font-semibold">
             Select Your Lender
           </h3>
-          <p className="text-muted-foreground font-ubuntu">
+          {/* <p className="text-muted-foreground font-ubuntu">
             Choose your preferred lender from the list below
+          </p> */}
+          <p className="text-muted-foreground font-ubuntu text-center">
+            We have selected the lenders your car finance could have been with.
+            <br />
+            Please review all lenders we have selected by using the scroll-box
+            below. br Your lenders may be part of a group - to view grouped
+            lenders use the dropdown next to the lender name.
           </p>
         </div>
 
@@ -144,6 +151,14 @@ export function LenderSelectionStep({ onNext }: Props) {
           )}
         </div>
       </div>
+
+      <p className="text-xs text-center">
+        By proceeding you are confirming that all lenders selected, and their
+        grouped lenders, failed to disclose commission and you are instructing
+        us to submit a claim. If there are any lenders in the scroll-box above
+        that you do not want to make a claim with please untick.
+      </p>
+
       <div className="flex items-center w-full relative gap-2">
         {/* <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
                     <ChevronLeft strokeWidth={3} className="size-5" />

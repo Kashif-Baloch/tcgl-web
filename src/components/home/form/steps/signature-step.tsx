@@ -16,6 +16,12 @@ import {
 
 const schema = z.object({
   signature: z.string().min(1, "Please provide your signature"),
+  termsAgreed: z.boolean({ message: "You must agree to the terms" }),
+  // termsAgreed: z.literal(true, {
+  //   errorMap: () => ({ message: "You must agree to the terms" }),
+  // }),
+  claimsAgreed: z.boolean().optional(),
+  authoriseAgreed: z.boolean().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -33,12 +39,16 @@ export function SignatureStep({ onNext }: Props) {
 
   const {
     handleSubmit,
+    register,
     setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       signature: formData.signature || "",
+      termsAgreed: formData.termsAgreed || false,
+      claimsAgreed: formData?.claimsAgreed || false,
+      authoriseAgreed: formData?.authoriseAgreed || false,
     },
   });
 
@@ -281,7 +291,68 @@ export function SignatureStep({ onNext }: Props) {
           )}
         </div>
       </div>
-
+      <p className="text-xs text-center">
+        Please carefully read the &quot;Car Finance Terms of Engagement
+        Bundle&quot; and Client Statements below before you submit your
+        signature.
+      </p>
+      <div className="grid grid-flow-col gap-2">
+        <input
+          type="checkbox"
+          id="authorise"
+          {...register("claimsAgreed")}
+          className="mt-1 h-5 w-5 cursor-pointer"
+        />
+        <label
+          htmlFor={`authorise`}
+          className="text-sm pt-1 cursor-pointer font-ubuntu select-none"
+        >
+          I was not fully informed about the commission the lenders, and grouped
+          lenders selected paid to the dealerships. I authorise The Claims Guys
+          Legal to make claims about all car finance agreements I held.
+        </label>
+      </div>{" "}
+      <div className="grid grid-flow-col gap-2">
+        <input
+          type="checkbox"
+          id="claims"
+          {...register("authoriseAgreed")}
+          className="mt-1 h-5 w-5 cursor-pointer"
+        />
+        <label
+          htmlFor={`claims`}
+          className="text-sm pt-1 cursor-pointer font-ubuntu select-none"
+        >
+          I authorise The Claims Guy Legal to: make an information request to my
+          lenders for information about car finance details, and any add-on
+          products. I agree for this information to be released to The Claims
+          Guys Legal; and refer my claim to the Financial Ombudsman Service
+          (FOS), where there is merit; and receive payment of any compensation
+          due.
+        </label>
+      </div>
+      <div className="grid grid-flow-col gap-2">
+        <input
+          type="checkbox"
+          id="termsAgreed"
+          {...register("termsAgreed")}
+          className="mt-1 h-5 w-5 cursor-pointer"
+        />
+        <label
+          htmlFor={`termsAgreed`}
+          className="text-sm pt-1 cursor-pointer font-ubuntu select-none"
+        >
+          I have read the Car Finance Terms of Engagement Claims Bundle, and the
+          Client Statements above and agree to be bound by them. I agree for my
+          signature to be applied to a Letter of Authority and FOS Complaint
+          Declaration for each lender
+        </label>
+      </div>
+      <div className="pl-5">
+        {errors.termsAgreed && (
+          <p className="text-sm text-red-600">{errors.termsAgreed.message}</p>
+        )}
+      </div>
       <div className="flex items-center w-full relative gap-2">
         {/* <Button type="button" className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" onClick={onBack}>
                     <ChevronLeft strokeWidth={3} className="size-5" />
@@ -296,6 +367,10 @@ export function SignatureStep({ onNext }: Props) {
           <ChevronRight strokeWidth={3} className="size-5" />
         </Button>
       </div>
+      <p className="text-xs text-center">
+        When you click submit we will receive the personal information you have
+        provided and will start processing your claim
+      </p>
     </form>
   );
 }

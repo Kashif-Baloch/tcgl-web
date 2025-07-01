@@ -27,11 +27,11 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 interface Props {
-  onNext: () => void;
   onBack: () => void;
+  onSubmit: () => void;
 }
 
-export function DrivingLicenceStep({ onNext }: Props) {
+export function DrivingLicenceStep({ onSubmit }: Props) {
   const { formData, updateFormData } = useFormContext();
   const [frontPreview, setFrontPreview] = useState<string | null>(null);
   const [backPreview, setBackPreview] = useState<string | null>(null);
@@ -69,13 +69,13 @@ export function DrivingLicenceStep({ onNext }: Props) {
     reader.readAsDataURL(file);
   };
 
-  const onSubmit = (data: FormData) => {
+  const handleSubmitData = (data: FormData) => {
     updateFormData(data);
-    onNext();
+    onSubmit();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleSubmitData)} className="space-y-6">
       <div className="space-y-6">
         <div className="text-center">
           <h3 className="text-xl font-ubuntu font-semibold">
@@ -220,7 +220,7 @@ export function DrivingLicenceStep({ onNext }: Props) {
           disabled={!frontFile || !backFile}
           className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          Next
+          Verify & Submit
           <ChevronRight strokeWidth={3} className="size-5" />
         </Button>
       </div>

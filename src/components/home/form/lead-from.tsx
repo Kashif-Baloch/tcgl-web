@@ -15,10 +15,14 @@ import { ChevronLeft } from "lucide-react";
 export interface FormData {
   postcode: string;
   selectedAddress: string;
+  prefix: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
   email: string;
+  termsAgreed: boolean;
+  claimsAgreed: boolean;
+  authoriseAgreed: boolean;
   mobileNumber: string;
   selectedLenders: string[];
   signature: string;
@@ -84,10 +88,10 @@ export default function MultiStepForm() {
       case 4:
         return <SignatureStep onNext={nextStep} onBack={prevStep} />;
       case 5:
-        return <DrivingLicenceStep onNext={nextStep} onBack={prevStep} />;
+        return <OTPVerificationStep onNext={nextStep} onBack={prevStep} />;
       case 6:
         return (
-          <OTPVerificationStep onBack={prevStep} onSubmit={handleFinalSubmit} />
+          <DrivingLicenceStep onBack={prevStep} onSubmit={handleFinalSubmit} />
         );
       default:
         return null;
@@ -100,8 +104,8 @@ export default function MultiStepForm() {
       "Personal Details",
       "Lender Selection",
       "Signature",
-      "Driving Licence",
       "OTP Verification",
+      "Driving Licence",
     ];
     return titles[currentStep - 1];
   };
