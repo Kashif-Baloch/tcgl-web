@@ -23,10 +23,10 @@ type FormData = z.infer<typeof schema>;
 
 interface Props {
   onBack: () => void;
-  onSubmit: () => void;
+  onNext: () => void;
 }
 
-export function OTPVerificationStep({ onSubmit }: Props) {
+export function OTPVerificationStep({ onNext }: Props) {
   const { formData, updateFormData } = useFormContext();
 
   const {
@@ -51,7 +51,7 @@ export function OTPVerificationStep({ onSubmit }: Props) {
     }
 
     updateFormData(data);
-    onSubmit();
+    onNext();
   };
 
   return (
@@ -107,7 +107,7 @@ export function OTPVerificationStep({ onSubmit }: Props) {
           disabled={watch("otp").length < 6}
           className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] text-white  rounded-md   !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          Verify & Submit
+          Next
         </Button>
       </div>
     </form>
