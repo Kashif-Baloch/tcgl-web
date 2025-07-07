@@ -11,7 +11,7 @@ interface OTPInputProps {
     onChange: (value: string) => void
 }
 
-export function OTPInput({ length = 6, value = "", onChange }: OTPInputProps) {
+export function OTPInput({ length = 4, value = "", onChange }: OTPInputProps) {
     const [otp, setOtp] = useState<string[]>(
         value.split("").slice(0, length).concat(Array(length).fill("")).slice(0, length),
     )

@@ -31,6 +31,7 @@
     "react-hook-form": "^7.57.0",
     "tailwind-merge": "^3.3.0",
     "ts-node": "^10.9.2",
+    "twilio": "^5.7.2",
     "zod": "^3.25.63"
   },
   "devDependencies": {

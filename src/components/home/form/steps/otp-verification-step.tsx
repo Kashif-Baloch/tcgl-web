@@ -1,13 +1,9 @@
 "use client";
 import { OTPInput } from "@/components/otp-input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+// import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CheckCircle,
-  //ChevronLeft,
-} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useFormContext } from "../lead-from";
@@ -15,8 +11,8 @@ import { useFormContext } from "../lead-from";
 const schema = z.object({
   otp: z
     .string()
-    .length(6, "OTP must be exactly 6 digits")
-    .regex(/^\d{6}$/, "OTP must contain only numbers"),
+    .length(4, "OTP must be exactly 4 digits")
+    .regex(/^\d{4}$/, "OTP must contain only numbers"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -33,7 +29,6 @@ export function OTPVerificationStep({ onNext }: Props) {
     // register,
     handleSubmit,
     formState: { errors },
-    setError,
     watch,
     setValue,
   } = useForm<FormData>({
@@ -43,15 +38,48 @@ export function OTPVerificationStep({ onNext }: Props) {
     },
   });
 
-  const handleOTPSubmit = (data: FormData) => {
-    // Validate OTP (hardcoded as "123456" for demo)
-    if (data.otp !== "123456") {
-      setError("otp", { message: "Invalid OTP. Please try again." });
-      return;
-    }
-
+  const handleOTPSubmit = async (data: FormData) => {
     updateFormData(data);
-    onNext();
+    const otpRes = await fetch("/apis/twillio/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber: formData.mobileNumber,
+        otpCode: data.otp,
+      }),
+    });
+
+    const otpData = await otpRes.json();
+    if (otpData.success) {
+      alert("OTP verified successfully!");
+      onNext();
+    }
+    else {
+      alert("Failed to verify OTP");
+    }
+  };
+
+
+  const sendOtpAgain = async () => {
+    const otpRes = await fetch("/apis/twillio/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber: formData.mobileNumber,
+      }),
+    });
+
+    const otpData = await otpRes.json();
+    if (otpData.success) {
+      alert("OTP sent successfully!");
+    }
+    else {
+      alert("Failed to send OTP");
+    }
   };
 
   return (
@@ -62,11 +90,11 @@ export function OTPVerificationStep({ onNext }: Props) {
             OTP Verification
           </h3>
           <p className="text-muted-foreground font-ubuntu">
-            Enter the 6-digit OTP sent to your phone: {formData.mobileNumber}
+            Enter the 4-digit OTP sent to your phone: {formData.mobileNumber}
           </p>
         </div>
 
-        <Card className="bg-[#d73470]/10 border-[#d73470]/50">
+        {/* <Card className="bg-[#d73470]/10 border-[#d73470]/50">
           <CardContent className="px-4 !py-0">
             <div className="flex items-center gap-2 text-primary">
               <CheckCircle className="h-4 w-4" />
@@ -75,11 +103,11 @@ export function OTPVerificationStep({ onNext }: Props) {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         <div className="space-y-2 flex flex-col items-center justify-center gap-3">
           <Label htmlFor="otp" className="!text-base font-ubuntu">
-            6-Digit OTP
+            4-Digit OTP
           </Label>
           <OTPInput
             value={watch("otp") || ""}
@@ -91,7 +119,7 @@ export function OTPVerificationStep({ onNext }: Props) {
         </div>
 
         <div className="text-center">
-          <Button type="button" variant="link" className="text-sm">
+          <Button onClick={sendOtpAgain} type="button" variant="link" className="text-sm cursor-pointer">
             Didn&apos;t receive the code? Resend OTP
           </Button>
         </div>
@@ -104,7 +132,7 @@ export function OTPVerificationStep({ onNext }: Props) {
                 </Button> */}
         <Button
           type="submit"
-          disabled={watch("otp").length < 6}
+          disabled={watch("otp").length < 4}
           className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px] from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] text-white  rounded-md   !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Next
