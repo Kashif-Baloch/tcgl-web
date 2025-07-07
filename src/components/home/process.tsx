@@ -15,7 +15,7 @@ const Process = () => {
             />
             {/* <ListOrdered className="size-10 text-[#d73470] shrink-0 aspect-square" /> */}
             <p className="text-center font-ubuntu font-[500]">
-              Check your <strong>car finace</strong> <br /> agreements
+              Check your <strong>car finance</strong> <br /> agreements
             </p>
           </div>
           <div className="flex flex-col gap-2 items-center justify-center">

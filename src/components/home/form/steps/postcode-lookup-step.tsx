@@ -22,13 +22,13 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 // Dummy addresses for demonstration
-const DUMMY_ADDRESSES = [
-    "123 High Street, London, SW1A 1AA",
-    "456 Oak Avenue, London, SW1A 1AA",
-    "789 Park Road, London, SW1A 1AA",
-    "321 Church Lane, London, SW1A 1AA",
-    "654 Mill Street, London, SW1A 1AA",
-]
+// const DUMMY_ADDRESSES = [
+//     "123 High Street, London, SW1A 1AA",
+//     "456 Oak Avenue, London, SW1A 1AA",
+//     "789 Park Road, London, SW1A 1AA",
+//     "321 Church Lane, London, SW1A 1AA",
+//     "654 Mill Street, London, SW1A 1AA",
+// ]
 
 interface Props {
     onNext: () => void
@@ -60,9 +60,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
         if (!postcode) return
 
         setIsLoading(true)
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        setAddresses(DUMMY_ADDRESSES)
+        await handleLookup()
         setIsLoading(false)
     }
 
@@ -70,6 +68,31 @@ export function PostcodeLookupStep({ onNext }: Props) {
         updateFormData(data)
         onNext()
     }
+
+    const handleLookup = async () => {
+        const response = await fetch(`/apis/lookup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ postcode }),
+        })
+        const data = await response.json()
+        if (response.ok) {
+            const adData = data?.map((item: any) => {
+                const lines = item?.Address?.Lines || [];
+                const filteredLines = lines.filter((line: string) => line !== "");
+                const fString = filteredLines.join(" ")
+                return fString
+            });
+            setAddresses(adData)
+        }
+        else {
+            alert("Failed to fetch addresses")
+            return
+        }
+    }
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
