@@ -105,14 +105,36 @@ const initialSubmissions = [
     },
 ]
 
+interface UserData {
+    id: String,
+    postcode: String,
+    selectedAddress: string | undefined,
+    prefix: String,
+    firstName: String,
+    lastName: String,
+    dateOfBirth: String,
+    email: String,
+    mobileNumber: String,
+    selectedLenders: [],
+    signature: String,
+    termsAgreed: Boolean,
+    claimsAgreed: Boolean,
+    authoriseAgreed: Boolean,
+    otp: String,
+    status: string,
+    drivingLicenceFront: {},
+    drivingLicenceBack: {},
+    createdAt: Date;
+}
+
 export default function AdminDashboard() {
-    const [submissions, setSubmissions] = useState(initialSubmissions)
-    const [filteredSubmissions, setFilteredSubmissions] = useState(initialSubmissions)
+    const [submissions, setSubmissions] = useState<UserData[]>([])
+    const [filteredSubmissions, setFilteredSubmissions] = useState<UserData[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [statusFilter, setStatusFilter] = useState("all")
     const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined)
     const [searchTerm, setSearchTerm] = useState("")
-    const [actionLoading, setActionLoading] = useState<number | null>(null)
+    const [actionLoading, setActionLoading] = useState<number | null | string>(null)
     const router = useRouter()
     const itemsPerPage = 5
 
@@ -127,7 +149,7 @@ export default function AdminDashboard() {
 
         // Date filter
         if (dateFilter) {
-            filtered = filtered.filter((sub) => format(sub.timestamp, "yyyy-MM-dd") === format(dateFilter, "yyyy-MM-dd"))
+            filtered = filtered.filter((sub) => format(sub.createdAt, "yyyy-MM-dd") === format(dateFilter, "yyyy-MM-dd"))
         }
 
         // Search filter
@@ -137,7 +159,7 @@ export default function AdminDashboard() {
                     sub.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     sub.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     sub.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    sub.phone.includes(searchTerm),
+                    sub.mobileNumber.includes(searchTerm),
             )
         }
 
@@ -145,11 +167,24 @@ export default function AdminDashboard() {
         setCurrentPage(1)
     }, [submissions, statusFilter, dateFilter, searchTerm])
 
+
+    useEffect(() => {
+        const getSubmissions = async () => {
+            const res = await fetch("/apis/insurance/get-details")
+            const data = await res.json()
+            console.log(data)
+            if (data.success) {
+                setSubmissions(data.data as UserData[])
+            }
+        }
+        getSubmissions()
+    }, [])
+
     // Calculate stats
     const stats = useMemo(() => {
         const today = new Date()
         const todaySubmissions = submissions.filter(
-            (sub) => format(sub.timestamp, "yyyy-MM-dd") === format(today, "yyyy-MM-dd"),
+            (sub) => format(sub.createdAt, "yyyy-MM-dd") === format(today, "yyyy-MM-dd"),
         )
 
         const totalSubmissions = submissions.length
@@ -174,7 +209,7 @@ export default function AdminDashboard() {
         // localStorage.removeItem("admin_authenticated")
         // router.push("/")
         try {
-            await fetch('/api/admin/logout', {
+            await fetch('/apis/admin/logout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             })
@@ -190,13 +225,13 @@ export default function AdminDashboard() {
             headers.join(","),
             ...filteredSubmissions.map((sub) =>
                 [
-                    format(sub.timestamp, "yyyy-MM-dd HH:mm:ss"),
+                    format(sub.createdAt, "yyyy-MM-dd HH:mm:ss"),
                     sub.firstName,
                     sub.lastName,
                     sub.email,
-                    sub.phone,
-                    `"${sub.address}"`,
-                    sub.lender,
+                    sub.mobileNumber,
+                    `"${sub.selectedAddress}"`,
+                    sub.selectedLenders,
                     sub.status,
                 ].join(","),
             ),
@@ -234,7 +269,7 @@ export default function AdminDashboard() {
         }
     }
 
-    const handleStatusUpdate = async (submissionId: number, newStatus: "approved" | "rejected" | "pending") => {
+    const handleStatusUpdate = async (submissionId: string, newStatus: "approved" | "rejected" | "pending") => {
         try {
             console.log(`Updating submission ${submissionId} to ${newStatus}`)
             setActionLoading(submissionId)
@@ -254,16 +289,16 @@ export default function AdminDashboard() {
             setActionLoading(null)
 
             // Show success feedback
-            const statusText =
-                newStatus === "approved" ? "ACCEPTED" : newStatus === "rejected" ? "REJECTED" : "RESET TO PENDING"
-            alert(`✅ Lead ${statusText} successfully!`)
+            newStatus === "approved" ? "ACCEPTED" : newStatus === "rejected" ? "REJECTED" : "RESET TO PENDING"
+            // alert(`✅ Lead ${statusText} successfully!`)
         } catch (error) {
             console.error("Error updating status:", error)
             setActionLoading(null)
-            alert("❌ Error updating lead status. Please try again.")
+            // alert("❌ Error updating lead status. Please try again.")
         }
     }
-    const handleAccept = (
+
+    const handleAccept = async (
         submission: any
     ) => {
         const confirmed = window.confirm(
@@ -271,27 +306,83 @@ export default function AdminDashboard() {
         )
 
         if (confirmed) {
-            handleStatusUpdate(submission.id, "approved")
+            const res = await fetch("/apis/insurance/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: submission.id,
+                    status: "approved",
+                }),
+            })
+
+            const data = await res.json()
+            if (data.success) {
+                alert("✅ Lead ACCEPTED successfully!")
+                handleStatusUpdate(submission.id, "approved")
+            }
+            else {
+                alert("❌ Error accepting lead. Please try again.")
+            }
         }
+
+
     }
 
-    const handleReject = (submission: any) => {
+    const handleReject = async (submission: any) => {
         const confirmed = window.confirm(
             `🔴 REJECT LEAD\n\nAre you sure you want to REJECT this lead?\n\nName: ${submission.firstName} ${submission.lastName}\nEmail: ${submission.email}\nPhone: ${submission.phone}\n\nThis action will mark the lead as REJECTED.`,
         )
 
         if (confirmed) {
-            handleStatusUpdate(submission.id, "rejected")
+            const res = await fetch("/apis/insurance/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: submission.id,
+                    status: "rejected",
+                }),
+            })
+
+            const data = await res.json()
+            if (data.success) {
+                handleStatusUpdate(submission.id, "rejected")
+                alert("✅ Lead REJECTED successfully!")
+            }
+            else {
+                alert("❌ Error rejecting lead. Please try again.")
+            }
         }
     }
 
-    const handleReset = (submission: any) => {
+    const handleReset = async (submission: any) => {
         const confirmed = window.confirm(
             `🔄 RESET LEAD\n\nReset this lead back to PENDING status?\n\nName: ${submission.firstName} ${submission.lastName}\nCurrent Status: ${submission.status.toUpperCase()}`,
         )
 
         if (confirmed) {
-            handleStatusUpdate(submission.id, "pending")
+            const res = await fetch("/apis/insurance/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: submission.id,
+                    status: "pending",
+                }),
+            })
+
+            const data = await res.json()
+            if (data.success) {
+                handleStatusUpdate(submission.id, "pending")
+                alert("✅ Lead RESET successfully!")
+            }
+            else {
+                alert("❌ Error resetting lead. Please try again.")
+            }
         }
     }
 
@@ -499,24 +590,24 @@ export default function AdminDashboard() {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        paginatedSubmissions.map((submission) => (
+                                        paginatedSubmissions.map((submission: UserData, index: number) => (
                                             <TableRow
-                                                key={submission.id}
+                                                key={index}
                                                 className={`${actionLoading === submission.id ? "opacity-50 bg-gray-50" : ""} transition-all duration-200`}
                                             >
                                                 <TableCell className="font-mono text-sm">
-                                                    {format(submission.timestamp, "dd/MM/yyyy HH:mm")}
+                                                    {format(submission.createdAt, "dd/MM/yyyy HH:mm")}
                                                 </TableCell>
                                                 <TableCell className="font-medium">
                                                     {submission.firstName} {submission.lastName}
                                                 </TableCell>
                                                 <TableCell>{submission.email}</TableCell>
-                                                <TableCell>{submission.phone}</TableCell>
-                                                <TableCell className="max-w-xs truncate" title={submission.address}>
-                                                    {submission.address}
+                                                <TableCell>{submission.mobileNumber}</TableCell>
+                                                <TableCell className="max-w-xs truncate" title={submission.selectedAddress}>
+                                                    {submission.selectedAddress}
                                                 </TableCell>
-                                                <TableCell>{submission.lender}</TableCell>
-                                                <TableCell>{getStatusBadge(submission.status)}</TableCell>
+                                                <TableCell>{submission.selectedLenders.join(", ")}</TableCell>
+                                                <TableCell>{getStatusBadge(submission.status || "pending")}</TableCell>
                                                 <TableCell className="text-center">{getActionButtons(submission)}</TableCell>
                                             </TableRow>
                                         ))

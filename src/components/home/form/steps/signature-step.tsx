@@ -202,24 +202,6 @@ export function SignatureStep({ onNext }: Props) {
     setValue("signature", "");
   };
 
-  // const accountSid = process.env.TWILIO_ACCOUNT_SID
-  // const authToken = process.env.TWILIO_AUTH_TOKEN
-  // const client = require('twilio')(accountSid, authToken);
-  // // const client = new Twilio(accountSid, authToken);
-
-  // async function sendOtp(phoneNumber: string, otp: string) {
-  //   try {
-  //     const message = await client.messages.create({
-  //       body: `Your OTP is: ${otp}`,
-  //       from: `${process.env.TWILIO_PHONE_NUMBER}`,
-  //       to: phoneNumber
-  //     });
-  //     console.log(`OTP sent successfully. Message SID: ${message.sid}`);
-  //   } catch (error) {
-  //     console.error('Error sending OTP:', error);
-  //     alert("Error sending OTP");
-  //   }
-  // }
 
   const onSubmit = async (data: FormData) => {
     updateFormData(data);
@@ -241,7 +223,9 @@ export function SignatureStep({ onNext }: Props) {
     else {
       alert("Failed to send OTP");
     }
+
   };
+
 
   useEffect(() => {
     const handleResize = () => {

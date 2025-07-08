@@ -203,16 +203,7 @@ const schema = z.object({
   mobileNumber: z
     .string()
     .min(1, "Mobile number is required")
-    .refine(
-      (value) => {
-        const cleanValue = value.replace(/\s+/g, "");
-        return /^(\+447\d{9}|07\d{9})$/.test(cleanValue);
-      },
-      {
-        message:
-          "Please enter a valid UK mobile number (e.g. 07123456789 or +447123456789)",
-      }
-    ),
+
 });
 
 type FormData = z.infer<typeof schema>;

@@ -72,9 +72,24 @@ export default function MultiStepForm() {
     }
   };
 
-  const handleFinalSubmit = () => {
-    console.log("Final form data:", formData);
-    alert("Form submitted successfully! Check console for data.");
+  const handleFinalSubmit = async () => {
+    // console.log("Final form data:", formData);
+    const res = await fetch("/apis/insurance/apply", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    console.log(data);
+
+    if (data.success) {
+      alert("Form submitted successfully!");
+    }
+    else {
+      alert("Form submission failed!");
+    }
   };
 
   const renderStep = () => {

@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  postcode      String
+  selectedAddress     String   @unique
+  prefix  String
+  firstName String
+  lastName  String
+  dateOfBirth String
+  email     String   @unique
+  mobileNumber  String
+  selectedLenders String[]
+  signature String
+  termsAgreed Boolean
+  claimsAgreed Boolean
+  authoriseAgreed Boolean
+  otp String
+  status String @default("pending")
+  drivingLicenceFront Json
+  drivingLicenceBack Json
+  createdAt DateTime @default(now())
+}
+
