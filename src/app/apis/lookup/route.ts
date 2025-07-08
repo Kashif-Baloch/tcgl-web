@@ -4,7 +4,7 @@ export async function POST(request: Request) {
     try {
         const payloadData = await request.json()
         const { postcode } = payloadData
-        const apiKey = 'LUMQ-9V9N-AKZV-ZPHR'; // ⚠️ Keep this server-side in production
+        const apiKey = process.env.LOOKUP_API_KEY!;// ⚠️ Keep this server-side in production
         const endpoint = `https://webservices.data-8.co.uk/AddressCapture/GetFullAddress.json?key=${apiKey}`;
 
         const payload = {
