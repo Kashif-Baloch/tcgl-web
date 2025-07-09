@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function PUT(request: Request) {
     try {
         const { id, status } = await request.json();
-        const users = await prisma.user.update({
+        await prisma.user.update({
             where: {
                 id: id
             },

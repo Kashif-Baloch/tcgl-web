@@ -15,8 +15,9 @@ CREATE TABLE "User" (
     "claimsAgreed" BOOLEAN NOT NULL,
     "authoriseAgreed" BOOLEAN NOT NULL,
     "otp" TEXT NOT NULL,
-    "drivingLicenceFront" TEXT NOT NULL,
-    "drivingLicenceBack" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'pending',
+    "drivingLicenceFront" JSONB NOT NULL,
+    "drivingLicenceBack" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
