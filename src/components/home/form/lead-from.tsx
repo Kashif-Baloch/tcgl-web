@@ -52,23 +52,38 @@ export const useFormContext = () => {
 
 const TOTAL_STEPS = 6;
 
-export default function MultiStepForm() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<Partial<FormData>>({});
+interface MultiStepFormProps {
+  initialStep?: number;
+  initialFormData?: Partial<FormData>;
+  onStepChange?: (step: number) => void;
+  onFormDataUpdate?: (data: Partial<FormData>) => void;
+}
+
+export default function MultiStepForm({
+  initialStep = 1,
+  initialFormData = {},
+  onStepChange,
+  onFormDataUpdate
+}: MultiStepFormProps) {
+  const [currentStep, setCurrentStep] = useState(initialStep);
+  const [formData, setFormData] = useState<Partial<FormData>>(initialFormData);
 
   const updateFormData = (data: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
+    onFormDataUpdate?.(data);
   };
 
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
+      onStepChange?.(currentStep + 1);
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      onStepChange?.(currentStep - 1);
     }
   };
 

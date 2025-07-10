@@ -220,7 +220,7 @@ export default function AdminDashboard() {
     }
 
     const exportToCSV = () => {
-        const headers = ["Timestamp", "First Name", "Last Name", "Email", "Phone", "Address", "Lender", "Status"]
+        const headers = ["Timestamp", "First Name", "Last Name", "Email", "Phone", "Address", "Lender", "Signature", "Status"]
         const csvContent = [
             headers.join(","),
             ...filteredSubmissions.map((sub) =>
@@ -231,7 +231,8 @@ export default function AdminDashboard() {
                     sub.email,
                     sub.mobileNumber,
                     `"${sub.selectedAddress}"`,
-                    sub.selectedLenders,
+                    `"${sub.selectedLenders}"`,
+                    `"${sub.signature}"`,
                     sub.status,
                 ].join(","),
             ),
@@ -579,6 +580,7 @@ export default function AdminDashboard() {
                                         <TableHead>Address</TableHead>
                                         <TableHead>Lender</TableHead>
                                         <TableHead>Status</TableHead>
+                                        <TableHead>Signature</TableHead>
                                         <TableHead className="text-center">Actions</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -606,8 +608,11 @@ export default function AdminDashboard() {
                                                 <TableCell className="max-w-xs truncate" title={submission.selectedAddress}>
                                                     {submission.selectedAddress}
                                                 </TableCell>
-                                                <TableCell>{submission.selectedLenders.join(", ")}</TableCell>
+                                                <TableCell>{submission.selectedLenders.join(" - ")}</TableCell>
                                                 <TableCell>{getStatusBadge(submission.status || "pending")}</TableCell>
+                                                <TableCell>
+                                                    <a className="text-blue-500 hover:underline" href={submission.signature} target="_blank">View</a>
+                                                </TableCell>
                                                 <TableCell className="text-center">{getActionButtons(submission)}</TableCell>
                                             </TableRow>
                                         ))

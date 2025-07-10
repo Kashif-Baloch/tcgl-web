@@ -4,12 +4,12 @@ import { cookies } from 'next/headers'
 
 export async function POST(request: Request) {
     const cookieStore = await cookies()
-    const { password } = await request.json()
+    const { password, email } = await request.json()
 
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    if (password === process.env.ADMIN_PASSWORD!) {
+    if (password === process.env.ADMIN_PASSWORD! && email === process.env.ADMIN_EMAIL!) {
         cookieStore.set('admin_auth', 'true', {
             secure: true
         })

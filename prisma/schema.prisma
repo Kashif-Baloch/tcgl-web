@@ -10,22 +10,22 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   postcode      String
-  selectedAddress     String   @unique
+  selectedAddress     String
   prefix  String
   firstName String
   lastName  String
   dateOfBirth String
-  email     String   @unique
+  email     String
   mobileNumber  String
-  selectedLenders String[]
+  selectedLenders String[] @default([])
   signature String
-  termsAgreed Boolean
-  claimsAgreed Boolean
-  authoriseAgreed Boolean
+  termsAgreed Boolean @default(false)
+  claimsAgreed Boolean @default(false)
+  authoriseAgreed Boolean @default(false)
   otp String
   status String @default("pending")
-  drivingLicenceFront Json
-  drivingLicenceBack Json
+  drivingLicenceFront Json? @default(dbgenerated())
+  drivingLicenceBack Json? @default(dbgenerated())
   createdAt DateTime @default(now())
 }
 

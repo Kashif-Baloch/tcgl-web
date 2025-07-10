@@ -13,6 +13,7 @@ import { Lock } from "lucide-react"
 
 export default function LoginPage() {
     const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("")
     const [error, setError] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -34,7 +35,7 @@ export default function LoginPage() {
             const response = await fetch('/apis/admin/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password }),
+                body: JSON.stringify({ password, email }),
             })
 
             if (response.ok) {
@@ -61,6 +62,18 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter admin email"
+                                required
+                            />
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="password">Password</Label>
                             <Input
