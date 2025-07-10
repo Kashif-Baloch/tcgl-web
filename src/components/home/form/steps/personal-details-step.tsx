@@ -236,9 +236,26 @@ export function PersonalDetailsStep({ onNext }: Props) {
     mode: "onSubmit", // Add this to control when validation occurs
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     updateFormData(data);
-    onNext();
+    const otpRes = await fetch("/apis/twillio/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber: data.mobileNumber,
+      }),
+    });
+
+    const otpData = await otpRes.json();
+    if (otpData.success) {
+      alert("OTP sent successfully!");
+      onNext();
+    }
+    else {
+      alert("Failed to send OTP");
+    }
   };
 
   return (

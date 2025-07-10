@@ -10,6 +10,7 @@ import { SignatureStep } from "./steps/signature-step";
 import { DrivingLicenceStep } from "./steps/driving-licence-step";
 import { OTPVerificationStep } from "./steps/otp-verification-step";
 import { ChevronLeft } from "lucide-react";
+import { SubmittedSuccessfully } from "./steps/submitted-successfully";
 
 // Form data types
 export interface FormData {
@@ -50,7 +51,7 @@ export const useFormContext = () => {
   return context;
 };
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 interface MultiStepFormProps {
   initialStep?: number;
@@ -101,6 +102,7 @@ export default function MultiStepForm({
 
     if (data.success) {
       alert("Form submitted successfully!");
+      setCurrentStep(currentStep + 1);
     }
     else {
       alert("Form submission failed!");
@@ -114,14 +116,18 @@ export default function MultiStepForm({
       case 2:
         return <PersonalDetailsStep onNext={nextStep} onBack={prevStep} />;
       case 3:
-        return <LenderSelectionStep onNext={nextStep} onBack={prevStep} />;
-      case 4:
-        return <SignatureStep onNext={nextStep} onBack={prevStep} />;
-      case 5:
         return <OTPVerificationStep onNext={nextStep} onBack={prevStep} />;
+      case 4:
+        return <LenderSelectionStep onNext={nextStep} onBack={prevStep} />;
+      case 5:
+        return <SignatureStep onNext={nextStep} onBack={prevStep} />;
       case 6:
         return (
           <DrivingLicenceStep onBack={prevStep} onSubmit={handleFinalSubmit} />
+        );
+      case 7:
+        return (
+          <SubmittedSuccessfully />
         );
       default:
         return null;
@@ -132,10 +138,11 @@ export default function MultiStepForm({
     const titles = [
       "Address Lookup",
       "Personal Details",
+      "OTP Verification",
       "Lender Selection",
       "Signature",
-      "OTP Verification",
       "Driving Licence",
+      "Submission",
     ];
     return titles[currentStep - 1];
   };

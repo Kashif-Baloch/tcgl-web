@@ -205,25 +205,7 @@ export function SignatureStep({ onNext }: Props) {
 
   const onSubmit = async (data: FormData) => {
     updateFormData(data);
-    const otpRes = await fetch("/apis/twillio/send-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        phoneNumber: formData.mobileNumber,
-      }),
-    });
-
-    const otpData = await otpRes.json();
-    if (otpData.success) {
-      alert("OTP sent successfully!");
-      onNext();
-    }
-    else {
-      alert("Failed to send OTP");
-    }
-
+    onNext()
   };
 
 
