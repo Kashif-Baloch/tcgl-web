@@ -12,6 +12,7 @@ import { format } from "date-fns"
 import { CalendarIcon, Check, CheckCircle, Download, LogOut, TrendingUp, Users, X, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
+import { toast } from "sonner"
 
 // Mock data for demonstration
 // const initialSubmissions = [
@@ -291,11 +292,11 @@ export default function AdminDashboard() {
 
             // Show success feedback
             // newStatus === "approved" ? "ACCEPTED" : newStatus === "rejected" ? "REJECTED" : "RESET TO PENDING"
-            // alert(`✅ Lead ${statusText} successfully!`)
+            // toast(`✅ Lead ${statusText} successfully!`)
         } catch (error) {
             console.error("Error updating status:", error)
             setActionLoading(null)
-            // alert("❌ Error updating lead status. Please try again.")
+            // toast("❌ Error updating lead status. Please try again.")
         }
     }
 
@@ -303,7 +304,7 @@ export default function AdminDashboard() {
         submission: any
     ) => {
         const confirmed = window.confirm(
-            `🟢 ACCEPT LEAD\n\nAre you sure you want to ACCEPT this lead?\n\nName: ${submission.firstName} ${submission.lastName}\nEmail: ${submission.email}\nPhone: ${submission.phone}\n\nThis action will mark the lead as APPROVED.`,
+            `🟢 ACCEPT LEAD\n\nAre you sure you want to ACCEPT this lead?\n\nName: ${submission.firstName} ${submission.lastName}\nEmail: ${submission.email}\nPhone: ${submission.mobileNumber}\n\nThis action will mark the lead as APPROVED.`,
         )
 
         if (confirmed) {
@@ -320,11 +321,11 @@ export default function AdminDashboard() {
 
             const data = await res.json()
             if (data.success) {
-                alert("✅ Lead ACCEPTED successfully!")
+                toast.success("✅ Lead ACCEPTED successfully!")
                 handleStatusUpdate(submission.id, "approved")
             }
             else {
-                alert("❌ Error accepting lead. Please try again.")
+                toast.error("❌ Error accepting lead. Please try again.")
             }
         }
 
@@ -333,7 +334,7 @@ export default function AdminDashboard() {
 
     const handleReject = async (submission: any) => {
         const confirmed = window.confirm(
-            `🔴 REJECT LEAD\n\nAre you sure you want to REJECT this lead?\n\nName: ${submission.firstName} ${submission.lastName}\nEmail: ${submission.email}\nPhone: ${submission.phone}\n\nThis action will mark the lead as REJECTED.`,
+            `🔴 REJECT LEAD\n\nAre you sure you want to REJECT this lead?\n\nName: ${submission.firstName} ${submission.lastName}\nEmail: ${submission.email}\nPhone: ${submission.mobileNumber}\n\nThis action will mark the lead as REJECTED.`,
         )
 
         if (confirmed) {
@@ -351,10 +352,10 @@ export default function AdminDashboard() {
             const data = await res.json()
             if (data.success) {
                 handleStatusUpdate(submission.id, "rejected")
-                alert("✅ Lead REJECTED successfully!")
+                toast.success("✅ Lead REJECTED successfully!")
             }
             else {
-                alert("❌ Error rejecting lead. Please try again.")
+                toast.error("❌ Error rejecting lead. Please try again.")
             }
         }
     }
@@ -379,10 +380,10 @@ export default function AdminDashboard() {
             const data = await res.json()
             if (data.success) {
                 handleStatusUpdate(submission.id, "pending")
-                alert("✅ Lead RESET successfully!")
+                toast.success("✅ Lead RESET successfully!")
             }
             else {
-                alert("❌ Error resetting lead. Please try again.")
+                toast.error("❌ Error resetting lead. Please try again.")
             }
         }
     }

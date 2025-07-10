@@ -190,6 +190,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const schema = z.object({
   prefix: z.string().min(1, "Title is required"),
@@ -250,11 +251,11 @@ export function PersonalDetailsStep({ onNext }: Props) {
 
     const otpData = await otpRes.json();
     if (otpData.success) {
-      alert("OTP sent successfully!");
+      toast.success("OTP sent successfully!");
       onNext();
     }
     else {
-      alert("Failed to send OTP");
+      toast.error("Failed to send OTP");
     }
   };
 

@@ -11,6 +11,7 @@ import { DrivingLicenceStep } from "./steps/driving-licence-step";
 import { OTPVerificationStep } from "./steps/otp-verification-step";
 import { ChevronLeft } from "lucide-react";
 import { SubmittedSuccessfully } from "./steps/submitted-successfully";
+import { toast } from "sonner";
 
 // Form data types
 export interface FormData {
@@ -101,11 +102,11 @@ export default function MultiStepForm({
     console.log(data);
 
     if (data.success) {
-      alert("Form submitted successfully!");
+      toast.success("Form submitted successfully!");
       setCurrentStep(currentStep + 1);
     }
     else {
-      alert("Form submission failed!");
+      toast.error("Form submission failed!");
     }
   };
 

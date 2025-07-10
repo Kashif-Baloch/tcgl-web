@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useFormContext } from "../lead-from"
 import { ChevronRight } from "lucide-react"
+import { toast } from "sonner"
 
 const schema = z.object({
     postcode: z
@@ -88,7 +89,7 @@ export function PostcodeLookupStep({ onNext }: Props) {
             setAddresses(adData)
         }
         else {
-            alert("Failed to fetch addresses")
+            toast.error("Failed to fetch addresses")
             return
         }
     }

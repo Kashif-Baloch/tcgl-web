@@ -6,22 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useFormContext } from "../lead-from";
 import {
-  //ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
 
 const schema = z.object({
-  drivingLicenceFront: z.instanceof(File, {
-    message: "Please upload the front of your driving licence",
-  }),
-  drivingLicenceBack: z.instanceof(File, {
-    message: "Please upload the back of your driving licence",
-  }),
+  drivingLicenceFront: z.instanceof(File).optional(),
+  drivingLicenceBack: z.instanceof(File).optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -79,7 +74,7 @@ export function DrivingLicenceStep({ onSubmit }: Props) {
       <div className="space-y-6">
         <div className="text-center">
           <h3 className="text-xl font-ubuntu font-semibold">
-            Upload Driving Licence
+            Upload Driving Licence ( Optional )
           </h3>
           <p className="text-muted-foreground font-ubuntu">
             Please upload both sides of your driving licence
@@ -217,7 +212,7 @@ export function DrivingLicenceStep({ onSubmit }: Props) {
         </Button> */}
         <Button
           type="submit"
-          disabled={!frontFile || !backFile}
+          // disabled={!frontFile || !backFile}
           className="relative bg-gradient-to-r w-full flex-1 cursor-pointer h-[50px]  text-white  rounded-md  from-[#d73470] to-primary hover:from-[#1F8585] hover:to-[#d73470] !text-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Verify & Submit

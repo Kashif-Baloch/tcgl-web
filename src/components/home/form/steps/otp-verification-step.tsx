@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useFormContext } from "../lead-from";
+import { toast } from "sonner";
 
 const schema = z.object({
   otp: z
@@ -53,11 +54,11 @@ export function OTPVerificationStep({ onNext }: Props) {
 
     const otpData = await otpRes.json();
     if (otpData.success) {
-      alert("OTP verified successfully!");
+      toast.success("OTP verified successfully!");
       onNext();
     }
     else {
-      alert("Failed to verify OTP");
+      toast.error("Failed to verify OTP");
     }
   };
 
@@ -75,10 +76,10 @@ export function OTPVerificationStep({ onNext }: Props) {
 
     const otpData = await otpRes.json();
     if (otpData.success) {
-      alert("OTP sent successfully!");
+      toast.success("OTP sent successfully!");
     }
     else {
-      alert("Failed to send OTP");
+      toast.error("Failed to send OTP");
     }
   };
 
