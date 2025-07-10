@@ -34,7 +34,7 @@ export function DrivingLicenceStep({ onSubmit }: Props) {
   const {
     handleSubmit,
     setValue,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -44,8 +44,8 @@ export function DrivingLicenceStep({ onSubmit }: Props) {
     },
   });
 
-  const frontFile = watch("drivingLicenceFront");
-  const backFile = watch("drivingLicenceBack");
+  // const frontFile = watch("drivingLicenceFront");
+  // const backFile = watch("drivingLicenceBack");
 
   const handleFileChange = (file: File | null, side: "front" | "back") => {
     if (!file) return;
