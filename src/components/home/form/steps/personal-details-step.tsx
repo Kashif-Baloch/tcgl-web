@@ -190,7 +190,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const schema = z.object({
   prefix: z.string().min(1, "Title is required"),
@@ -239,24 +238,7 @@ export function PersonalDetailsStep({ onNext }: Props) {
 
   const onSubmit = async (data: FormData) => {
     updateFormData(data);
-    const otpRes = await fetch("/apis/twillio/send-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        phoneNumber: data.mobileNumber,
-      }),
-    });
-
-    const otpData = await otpRes.json();
-    if (otpData.success) {
-      toast.success("OTP sent successfully!");
-      onNext();
-    }
-    else {
-      toast.error("Failed to send OTP");
-    }
+    onNext();
   };
 
   return (

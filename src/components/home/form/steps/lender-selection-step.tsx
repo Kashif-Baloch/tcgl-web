@@ -53,6 +53,24 @@ export function LenderSelectionStep({ onNext }: Props) {
 
   const selectedLenders = watch("selectedLenders");
 
+  // useEffect(() => {
+  //   const getTCGLDefendants = async () => {
+  //     const res = await fetch("/apis/defendents", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         type_uc: "UC",
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+  //     console.log(data);
+  //   }
+  //   getTCGLDefendants();
+  // }, [selectedLenders]);
+
   const onSubmit = (data: FormData) => {
     updateFormData(data);
     onNext();

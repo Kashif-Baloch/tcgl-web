@@ -117,11 +117,11 @@ export default function MultiStepForm({
       case 2:
         return <PersonalDetailsStep onNext={nextStep} onBack={prevStep} />;
       case 3:
-        return <OTPVerificationStep onNext={nextStep} onBack={prevStep} />;
-      case 4:
         return <LenderSelectionStep onNext={nextStep} onBack={prevStep} />;
-      case 5:
+      case 4:
         return <SignatureStep onNext={nextStep} onBack={prevStep} />;
+      case 5:
+        return <OTPVerificationStep onNext={nextStep} onBack={prevStep} />;
       case 6:
         return (
           <DrivingLicenceStep onBack={prevStep} onSubmit={handleFinalSubmit} />
@@ -139,9 +139,9 @@ export default function MultiStepForm({
     const titles = [
       "Address Lookup",
       "Personal Details",
-      "OTP Verification",
       "Lender Selection",
       "Signature",
+      "OTP Verification",
       "Driving Licence",
       "Submission",
     ];

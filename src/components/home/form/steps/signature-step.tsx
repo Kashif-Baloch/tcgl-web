@@ -13,6 +13,7 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
+import { toast } from "sonner";
 
 const schema = z.object({
   signature: z.string().min(1, "Please provide your signature"),
@@ -205,7 +206,24 @@ export function SignatureStep({ onNext }: Props) {
 
   const onSubmit = async (data: FormData) => {
     updateFormData(data);
-    onNext()
+    const otpRes = await fetch("/apis/twillio/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber: formData.mobileNumber,
+      }),
+    });
+
+    const otpData = await otpRes.json();
+    if (otpData.success) {
+      toast.success("OTP sent successfully!");
+      onNext();
+    }
+    else {
+      toast.error("Failed to send OTP");
+    }
   };
 
 
